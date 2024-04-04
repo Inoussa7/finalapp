@@ -1,9 +1,11 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import { sql } from '@vercel/postgres'; // Importing sql once
+import { sql } from '@vercel/postgres';
 
 export default async function Home() {
-  const { rows: courses } = await sql`SELECT * FROM courses;`;
+  const returned = await sql`SELECT * FROM language_table;`;
+  let stringedReturn = JSON.stringify(returned.rows);
+  let dataArray = returned.rows;
 
   return (
     <>
@@ -20,21 +22,22 @@ export default async function Home() {
           <li className={styles.navItem}><a className={styles.navLink} href="#About">Login</a></li>
           <li className={styles.navItem}><a className={styles.navLink} href="#Contact">Sign up</a></li>
           <li className={styles.navItem}><a className={styles.navLink} href="#Contact">View</a></li>
+          {/* More nav items */}
         </ul>
       </nav>
-      <br />
+      <br></br>
       <table>
         <thead>
           <tr>
-            {courses.length > 0 && Object.keys(courses[0]).map((key) => (
-              <th key={key}>{key}</th>
-            ))}
+            {dataArray.length > 0 && Object.keys(dataArray[0]).map((key) => (
+                <th key={key}>{key}</th>
+              ))}
           </tr>
         </thead>
         <tbody>
-          {courses.map((course) => (
-            <tr key={course.id}>
-              {Object.values(course).map((value, index) => (
+          {dataArray.map((item) => (
+            <tr key={item.id}>
+              {Object.values(item).map((value, index) => (
                 <td key={index}>{value}</td>
               ))}
             </tr>
