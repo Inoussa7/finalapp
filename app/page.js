@@ -36,7 +36,7 @@ export default async function Home() {
         </thead>
         <tbody>
           {dataArray.map((item) => (
-            <tr key={item.id}>
+            <tr key={course.id}>
               {Object.values(item).map((value, index) => (
                 <td key={index}>{value}</td>
               ))}
