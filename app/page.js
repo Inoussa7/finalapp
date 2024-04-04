@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import { sql } from '@vercel/postgres';
 
 export default async function Home() {
-  const returned = await sql`select * from courses;`;
+  const returned = await sql`select * from instructors;`;
   let stringedReturn = JSON.stringify(returned.rows);
   let dataArray = returned.rows;
 
@@ -36,7 +36,7 @@ export default async function Home() {
         </thead>
         <tbody>
           {dataArray.map((item) => (
-            <tr key={course.id}>
+            <tr key={item.id}>
               {Object.values(item).map((value, index) => (
                 <td key={index}>{value}</td>
               ))}
