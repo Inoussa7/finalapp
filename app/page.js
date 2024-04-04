@@ -2,16 +2,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { sql } from '@vercel/postgres';
 
-// Define fetchPosts function outside of Home component
-export async function fetchPosts() {
-  try {
-    const { rows } = await sql`SELECT * FROM courses;`;
-    return rows; // Assuming rows contains an array of course data
-  } catch (error) {
-    console.error("Could not fetch posts from database:", error);
-    return []; // Return empty array in case of error
-  }
-}export default async function Home() {
+export default async function Home() {
   const returned = await sql`SELECT * FROM courses;`;
   let stringedReturn = JSON.stringify(returned.rows);
   let dataArray = returned.rows;
