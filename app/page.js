@@ -1,7 +1,12 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { sql } from '@vercel/postgres';
 
-export default function Home() {
+export default async function Home() {
+  const returned = await sql`select * from userinfo;`;
+  let stringedReturn = JSON.stringify(returned.rows);
+  let dataArray = returned.rows;
+
   return (
     <>
       <header className={styles.header}>
@@ -20,7 +25,25 @@ export default function Home() {
           {/* More nav items */}
         </ul>
       </nav>
-      
+      <br></br>
+      <table>
+        <thead>
+          <tr>
+            {dataArray.length > 0 && Object.keys(dataArray[0]).map((key) => (
+                <th key={key}>{key}</th>
+              ))}
+          </tr>
+        </thead>
+        <tbody>
+          {dataArray.map((item) => (
+            <tr key={item.id}>
+              {Object.values(item).map((value, index) => (
+                <td key={index}>{value}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 }
