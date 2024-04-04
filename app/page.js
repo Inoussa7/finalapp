@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import { sql } from '@vercel/postgres';
 
 export default async function Home() {
-  const returned = await sql`select * from instructors;`;
+  const returned = await sql`SELECT * from instructors;`;
   let stringedReturn = JSON.stringify(returned.rows);
   let dataArray = returned.rows;
 
