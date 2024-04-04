@@ -6,7 +6,7 @@ export default async function Home() {
   const returned = await sql`SELECT * FROM courses;`;
   let stringedReturn = JSON.stringify(returned.rows);
   let dataArray = returned.rows;
-
+key
   return (
     <>
       <header className={styles.header}>
