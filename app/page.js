@@ -37,9 +37,9 @@ export default async function Home() {
         <tbody>
           {dataArray.map((item) => (
             <tr key={item.id}>
-              {Object.values(item).map((value, index) => (
-                <td key={index}>{value}</td>
-              ))}
+             {Object.values(item).map((value, index) => (
+            <td key={index}>{value instanceof Date ? value.toISOString() : value}</td>
+            ))}
             </tr>
           ))}
         </tbody>
