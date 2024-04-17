@@ -1,50 +1,56 @@
-import Image from "next/image";
+import React from 'react';
+import Header from '../components/Header';
+import Navigation from '../components/Navigation';
+import SignUpForm from '../components/SignUpForm';
+import LoginForm from '../components/LoginForm';
 import styles from "./page.module.css";
-import { sql } from '@vercel/postgres';
+import { sql } from '@vercel/postgres'; 
+import { client } from 'next/client';
 
-export default async function Home() {
-  const returned = await sql`SELECT * FROM userinfo;`;
-  let stringedReturn = JSON.stringify(returned.rows);
-  let dataArray = returned.rows;
+const HomePage = ({ users }) => {
+  const [showSignUp, setShowSignUp] = React.useState(false); // Use React.useState instead of useState
+  const [showSignIn, setShowSignIn] = React.useState(false); // Use React.useState instead of useState
+
+  const handleSignUpClick = (event) => {
+    event.preventDefault();
+    setShowSignUp(true);
+    setShowSignIn(false); // Hide SignIn form when showing SignUp form
+  };
+
+  const handleSignInClick = (event) => {
+    event.preventDefault();
+    setShowSignIn(true);
+    setShowSignUp(false); // Hide SignUp form when showing SignIn form
+  };
 
   return (
     <>
-      <header className={styles.header}>
-        <div className={styles.container}>
-          <h1>Welcome to TEAC 882B</h1>
-          <h2>Database and Interactive Web Development</h2>
-          <h2>Trilingual Learning App</h2>
-        </div>
-      </header>
-      <nav className={styles.nav}>
-        <ul className={styles.navList}>
-          <li className={styles.navItem}><a className={styles.navLink} href="#Home">Home</a></li>
-          <li className={styles.navItem}><a className={styles.navLink} href="#About">Login</a></li>
-          <li className={styles.navItem}><a className={styles.navLink} href="#Contact">Sign up</a></li>
-          <li className={styles.navItem}><a className={styles.navLink} href="#Contact">View</a></li>
-          {/* More nav items */}
-        </ul>
-      </nav>
-      <br></br>
+      <Header />
+      <Navigation />
+      {showSignUp && <SignUpForm />}
+      {showSignIn && <LoginForm />}
+
+      <br />
       <table>
         <thead>
           <tr>
-            {dataArray.length > 0 && Object.keys(dataArray[0]).map((key) => (
-                <th key={key}>{key}
-                </th>
-              ))}
+            {users.length > 0 && Object.keys(users[0]).map((key) => (
+              <th key={key}>{key}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {dataArray.map((item) => (
+          {users.map((item) => (
             <tr key={item.id}>
-             {Object.values(item).map((value, index) => (
-             <td key={index}>{value instanceof Date ? value.toISOString() : value}</td>
-             ))}
+              {Object.values(item).map((value, index) => (
+                <td key={index}>{value instanceof Date ? value.toISOString() : value}</td>
+              ))}
             </tr>
           ))}
         </tbody>
       </table>
     </>
   );
-}
+};
+
+export default HomePage;
