@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Navigation from '../components/Navigation';
 import SignUpForm from '../components/SignUpForm';
 import LoginForm from '../components/LoginForm';
-import styles from "./app/page.module.css";
+import styles from "../app//Navigation.module.css";
 import { sql } from '@vercel/postgres'; 
 
 const HomePage = () => {
