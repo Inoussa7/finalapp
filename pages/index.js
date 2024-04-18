@@ -7,10 +7,12 @@ import SignUpForm from '../components/SignUpForm';
 import LoginForm from '../components/LoginForm';
 import styles from "../app//Navigation.module.css";
 import { sql } from '@vercel/postgres'; 
+import dbConnect from '.../utils/dbConnect';
 
 const HomePage = () => {
   const [users, setUsers] = useState([]);
 
+// function for fetching data from PorstgreSQL
   const fetchData = async () => {
     try {
       const returned = await sql`SELECT * FROM language_table`;
@@ -19,9 +21,15 @@ const HomePage = () => {
       console.error('Error fetching data:', error);
     }
   };
-
+// function for fetching data from MongoDB
+const fetchMongoData = async () => {
+  const { db } = await dbConnect();
+  const mongoData = await db.collection('Lessons').find({}).toArray();
+  console.log(mongoData); // log the data to the console for now
+};
   useEffect(() => {
     fetchData();
+    fetchMongoData();
   }, []); // Empty dependency array ensures the effect runs only once after the component mounts
 
   const [showSignUp, setShowSignUp] = useState(false);
