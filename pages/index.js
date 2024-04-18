@@ -11,66 +11,45 @@ import ErrorBoundary from '../components/ErrorBoundary';
 const HomePage = () => {
   const [users, setUsers] = useState([]);
   const [mongoData, setMongoData] = useState([]);
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [showSignIn, setShowSignIn] = useState(false);
 
   // Function for fetching data from PostgreSQL
   const fetchPostgresData = async () => {
     try {
-      const returned = await sql`SELECT * FROM language_table`;
+      const returned = await sql`SELECT * FROM userinfo`;
       setUsers(returned.rows);
-      // Debug code
-      console.log('PostgreSQL data:', returned.rows);
-      returned.rows.forEach(row => {
-        for (let key in row) {
-          if (typeof row[key] === 'string' && row[key].startsWith('Hello')) {
-            console.log(`Found a string that starts with 'Hello' in PostgreSQL data: ${row[key]}`);
-          }
-        }
-        for (let key in row) {
-          if (row[key] && typeof row[key] === 'string' && row[key].startsWith('Hello')) {
-            console.log(`Found a string that starts with 'Hello' in PostgreSQL data: ${row[key]}`);
-          }
-        }
-      });
     } catch (error) {
       console.error('Error fetching PostgreSQL data:', error);
     }
   };
-// Function for fetching data from MongoDB
-const fetchMongoData = async () => {
-  try {
-    const res = await fetch('/api/mongoData');
-    const mongoData = await res.json();
-    setMongoData(mongoData);
-    // Debug code
-    console.log('MongoDB data:', mongoData);
-    mongoData.forEach(doc => {
-      for (let key in doc) {
-        if (doc[key] && typeof doc[key] === 'string' && doc[key].startsWith('Hello')) {
-          console.log(`Found a string that starts with 'Hello' in MongoDB data: ${doc[key]}`);
-        }
-      }
-    });
-  } catch (error) {
-    console.error('Error fetching MongoDB data:', error);
-  }
-};
+
+  // Function for fetching data from MongoDB
+  const fetchMongoData = async () => {
+    try {
+      const res = await fetch('/api/mongoData');
+      const mongoData = await res.json();
+      setMongoData(mongoData);
+    } catch (error) {
+      console.error('Error fetching MongoDB data:', error);
+    }
+  };
 
   useEffect(() => {
     fetchPostgresData();
     fetchMongoData();
-  }, []); // Empty dependency array ensures the effect runs only once after the component mounts
-
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showSignIn, setShowSignIn] = useState(false);
+  }, []);
 
   const handleSignUpClick = (event) => {
     event.preventDefault();
+    // Assuming this function comes from Navigation component
     setShowSignUp(true);
     setShowSignIn(false);
   };
 
   const handleSignInClick = (event) => {
     event.preventDefault();
+    // Assuming this function comes from Navigation component
     setShowSignIn(true);
     setShowSignUp(false);
   };
@@ -83,18 +62,18 @@ const fetchMongoData = async () => {
       {showSignIn && <LoginForm />}
 
       <br />
-      <h2> My PostgreSQL Data:</h2>
+      <h2>My PostgreSQL Data:</h2>
       <table>
         <thead>
           <tr>
             {users.length > 0 && Object.keys(users[0]).map((key) => (
-              <th key={key}>{key}</th>
-            ))}
+                <th key={key}>{key}</th>
+              ))}
           </tr>
         </thead>
         <tbody>
-          {users.map((item) => (
-            <tr key={item.id}>
+          {users.map((item, index) => (
+            <tr key={index}>
               {Object.values(item).map((value, index) => (
                 <td key={index}>{value instanceof Date ? value.toISOString() : value}</td>
               ))}
@@ -106,7 +85,7 @@ const fetchMongoData = async () => {
       <br />
       <h2>My MongoDB Data:</h2>
       <pre>{JSON.stringify(mongoData, null, 2)}</pre>
-      </>
+    </>
   );
 };
 
