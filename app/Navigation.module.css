@@ -1,4 +1,12 @@
 /* components/Navigation.module.css */
+.nav {
+    background-color: #104e34;
+    padding: 20px;
+    border: 1px solid #e7e7e7;
+    display: flex;
+    justify-content: center;
+}
+
 .nav ul {
     list-style: none;
     padding: 0;
@@ -11,7 +19,7 @@
 
 .nav ul li a {
     text-decoration: none;
-    color: blue;
+    color: white; 
     cursor: pointer;
 }
 
