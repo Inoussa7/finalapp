@@ -6,6 +6,7 @@ import LoginForm from '../components/LoginForm';
 import styles from "../app/Navigation.module.css";
 import { sql } from '@vercel/postgres'; 
 import dbConnect from '../utils/dbConnect';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 const HomePage = () => {
   const [users, setUsers] = useState([]);
@@ -75,7 +76,7 @@ const fetchMongoData = async () => {
   };
 
   return (
-    <>
+    <ErrorBoundary>
       <Header />
       <Navigation />
       {showSignUp && <SignUpForm />}
@@ -105,7 +106,7 @@ const fetchMongoData = async () => {
       <br />
       <h2>MongoDB Data:</h2>
       <pre>{JSON.stringify(mongoData, null, 2)}</pre>
-    </>
+      </ErrorBoundary>
   );
 };
 
