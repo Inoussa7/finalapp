@@ -23,6 +23,18 @@ const nextConfig = {
       };
     }
 
+    // Ignore the optional dependencies of the `mongodb` package
+    config.externals = config.externals || {};
+    config.externals['@mongodb-js/zstd'] = 'commonjs @mongodb-js/zstd';
+    config.externals['kerberos'] = 'commonjs kerberos';
+    config.externals['mongodb-client-encryption'] = 'commonjs mongodb-client-encryption';
+
+    // Handle .node files
+    config.module.rules.push({
+      test: /\.node$/,
+      loader: 'file-loader',
+    });
+
     return config;
   },
 };

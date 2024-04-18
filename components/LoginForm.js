@@ -5,10 +5,26 @@ const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => { // add async here
         event.preventDefault();
         console.log('Login attempt with:', username, password);
+
         // Add logic to handle login
+        const response = await fetch('/api/login', { // replace '/api/login' with your actual login endpoint
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (response.ok) {
+            console.log('Login successful');
+            // handle successful login here (e.g. redirect to another page, update user state, etc.)
+        } else {
+            console.log('Login failed');
+            // handle failed login here (e.g. show error message, clear form, etc.)
+        }
     };
 
     return (

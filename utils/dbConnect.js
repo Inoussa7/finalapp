@@ -1,11 +1,10 @@
 // utils/dbConnect.js
+import dotenv from 'dotenv';
+dotenv.config();
 
 import { MongoClient } from 'mongodb';
 
-const client = new MongoClient(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const client = new MongoClient(process.env.MONGODB_URI);
 
 export default async function dbConnect() {
   if (!client.isConnected()) await client.connect();

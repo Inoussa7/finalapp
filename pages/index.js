@@ -76,14 +76,14 @@ const fetchMongoData = async () => {
   };
 
   return (
-    <ErrorBoundary>
+    <>
       <Header />
-      <Navigation />
+      <Navigation onSignUpClick={handleSignUpClick} onSignInClick={handleSignInClick} />
       {showSignUp && <SignUpForm />}
       {showSignIn && <LoginForm />}
 
       <br />
-      <h2>PostgreSQL Data:</h2>
+      <h2> My PostgreSQL Data:</h2>
       <table>
         <thead>
           <tr>
@@ -104,9 +104,9 @@ const fetchMongoData = async () => {
       </table>
 
       <br />
-      <h2>MongoDB Data:</h2>
+      <h2>My MongoDB Data:</h2>
       <pre>{JSON.stringify(mongoData, null, 2)}</pre>
-      </ErrorBoundary>
+      </>
   );
 };
 
