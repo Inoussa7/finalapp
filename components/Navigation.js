@@ -1,6 +1,6 @@
 // components/Navigation.js
-import Link from 'next/link';  // Using Next.js Link for client-side navigation
-import styles from './Navigation.module.css'; // Assuming you have a CSS module for navigation
+import Link from 'next/link';  
+import styles from './app/Navigation.module.css'; 
 
 const Navigation = () => {
     return (
