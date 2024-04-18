@@ -1,11 +1,14 @@
-// pages/api/mongoData.js
-import dbConnect from '../../utils/dbConnect';
+// mongoData.js
+const mongoose = require('mongoose');
 
-export default async function handler(req, res) {
-  const { db } = await dbConnect();
+// Define a Mongoose schema
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+});
 
-  const lessonsData = await db.collection('Lessons').find({}).toArray();
-  const userDataData = await db.collection('userData').find({}).toArray();
+// Define a Mongoose model
+const User = mongoose.model('User', userSchema);
 
-  res.status(200).json({ lessonsData, ealData });
-}
+// Export the User model
+module.exports = User;
