@@ -16,6 +16,15 @@ const HomePage = () => {
     try {
       const returned = await sql`SELECT * FROM language_table`;
       setUsers(returned.rows);
+      // Debug code
+    console.log('PostgreSQL data:', returned.rows);
+    returned.rows.forEach(row => {
+      for (let key in row) {
+        if (typeof row[key] === 'string' && row[key].startsWith('Hello')) {
+          console.log(`Found a string that starts with 'Hello' in PostgreSQL data: ${row[key]}`);
+        }
+      }
+    });
     } catch (error) {
       console.error('Error fetching PostgreSQL data:', error);
     }
@@ -27,6 +36,15 @@ const HomePage = () => {
       const res = await fetch('/api/mongoData');
       const mongoData = await res.json();
       setMongoData(mongoData);
+     // Debug code
+    console.log('MongoDB data:', mongoData);
+    mongoData.forEach(doc => {
+      for (let key in doc) {
+        if (typeof doc[key] === 'string' && doc[key].startsWith('Hello')) {
+          console.log(`Found a string that starts with 'Hello' in MongoDB data: ${doc[key]}`);
+        }
+      }
+    });
     } catch (error) {
       console.error('Error fetching MongoDB data:', error);
     }
