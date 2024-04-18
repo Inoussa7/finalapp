@@ -24,8 +24,8 @@ const HomePage = () => {
   // Function for fetching data from MongoDB
   const fetchMongoData = async () => {
     try {
-      const { db } = await dbConnect();
-      const mongoData = await db.collection('Lessons').find({}).toArray();
+      const res = await fetch('/api/mongoData');
+      const mongoData = await res.json();
       setMongoData(mongoData);
     } catch (error) {
       console.error('Error fetching MongoDB data:', error);
