@@ -1,34 +1,39 @@
-// pages/index.js
-
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Navigation from '../components/Navigation';
 import SignUpForm from '../components/SignUpForm';
 import LoginForm from '../components/LoginForm';
-import styles from "../app//Navigation.module.css";
+import styles from "../app/Navigation.module.css";
 import { sql } from '@vercel/postgres'; 
-import dbConnect from '.../utils/dbConnect';
+import dbConnect from '../utils/dbConnect';
 
 const HomePage = () => {
   const [users, setUsers] = useState([]);
+  const [mongoData, setMongoData] = useState([]);
 
-// function for fetching data from PorstgreSQL
-  const fetchData = async () => {
+  // Function for fetching data from PostgreSQL
+  const fetchPostgresData = async () => {
     try {
       const returned = await sql`SELECT * FROM language_table`;
       setUsers(returned.rows);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching PostgreSQL data:', error);
     }
   };
-// function for fetching data from MongoDB
-const fetchMongoData = async () => {
-  const { db } = await dbConnect();
-  const mongoData = await db.collection('Lessons').find({}).toArray();
-  console.log(mongoData); // log the data to the console for now
-};
+
+  // Function for fetching data from MongoDB
+  const fetchMongoData = async () => {
+    try {
+      const { db } = await dbConnect();
+      const mongoData = await db.collection('Lessons').find({}).toArray();
+      setMongoData(mongoData);
+    } catch (error) {
+      console.error('Error fetching MongoDB data:', error);
+    }
+  };
+
   useEffect(() => {
-    fetchData();
+    fetchPostgresData();
     fetchMongoData();
   }, []); // Empty dependency array ensures the effect runs only once after the component mounts
 
@@ -55,6 +60,7 @@ const fetchMongoData = async () => {
       {showSignIn && <LoginForm />}
 
       <br />
+      <h2>PostgreSQL Data:</h2>
       <table>
         <thead>
           <tr>
@@ -73,6 +79,10 @@ const fetchMongoData = async () => {
           ))}
         </tbody>
       </table>
+
+      <br />
+      <h2>MongoDB Data:</h2>
+      <pre>{JSON.stringify(mongoData, null, 2)}</pre>
     </>
   );
 };
