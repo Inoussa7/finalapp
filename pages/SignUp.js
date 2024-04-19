@@ -1,4 +1,5 @@
-// pages/signup.js
+// pages/SignUp.js
+/* eslint-disable react/no-unescaped-entities */
 
 import React, { useState } from 'react';
 import SignUpForm from '../components/SignUpForm';

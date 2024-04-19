@@ -1,4 +1,5 @@
-// pages/login.js
+// pages/Login.js
+/* eslint-disable react/no-unescaped-entities */
 
 import React, { useState } from 'react';
 import LoginForm from '../components/LoginForm';
