@@ -47,3 +47,116 @@
 .navLink:hover {
   background-color: #c6bf37;
 }
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.label,
+.input {
+  margin-bottom: 10px;
+}
+/* page.module.css */
+
+.form {
+display: flex;
+flex-direction: column;
+max-width: 300px;
+margin: auto;
+}
+
+.label {
+margin-bottom: 10px;
+}
+
+.input {
+padding: 8px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+}
+
+.button {
+padding: 10px 20px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+.button:hover {
+background-color: #0056b3;
+}
+/* UserLessons.module.css */
+.container {
+padding: 20px;
+background-color: #f4f4f4;
+border-radius: 8px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+max-width: 600px;
+margin: 20px auto;
+}
+
+.heading {
+font-size: 24px;
+color: #333;
+text-align: center;
+}
+
+.selectContainer {
+margin: 10px 0;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.select {
+padding: 8px;
+border-radius: 4px;
+border: 1px solid #ccc;
+width: 100%;
+margin-left: 10px;
+}
+
+.overview {
+background-color: #fff;
+padding: 15px;
+border-radius: 8px;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.section {
+margin-top: 15px;
+}
+
+.ul {
+list-style: none;
+padding: 0;
+}
+
+.li {
+background-color: #eef;
+padding: 8px;
+margin-bottom: 5px;
+border-radius: 4px;
+}
+
+
+
+/* styles.css */
+.custom-card {
+background-color: #ffffff;
+color: #1a202c; 
+padding: 2rem; 
+border-radius: 0.75rem; 
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); 
+}
+
+/* TailwindCSS dark mode using media queries */
+@media (prefers-color-scheme: dark) {
+  .custom-card {
+    background-color: #2d3748; 
+    color: #edf2f7; 
+  }
+}

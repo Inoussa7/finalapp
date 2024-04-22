@@ -1,45 +1,76 @@
-// components/LoginForm.js
-import React, { useState } from 'react';
+// LoginForm.js
+'use client'
+import React from 'react';
+import styles from '../app/page.module.css';
 
-const LoginForm = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+class LoginForm extends React.Component {
+  state = {
+    username: '',
+    password: '',
+  };
 
-    const handleSubmit = async (event) => { // add async here
-        event.preventDefault();
-        console.log('Login attempt with:', username, password);
+  handleInputChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
 
-        // Add logic to handle login
-        const response = await fetch('/api/login', { // replace '/api/login' with your actual login endpoint
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        });
+  handleSubmit = async event => {
+    event.preventDefault();
+    const { username, password } = this.state;
+  
+    try {
+      const response = await fetch('https://april20finalapp.vercel.app/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Login successful', data);
+        localStorage.setItem('userData', JSON.stringify(data));  // Assuming 'data' contains user token or user info
+        // Handle successful login (e.g., redirect to another page)
+      } else {
+        console.log('Login failed', data.message);
+        // Handle failed login (e.g., show error message)
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      // Handle error (e.g., show error message)
+    }
+  };
 
-        if (response.ok) {
-            console.log('Login successful');
-            // handle successful login here (e.g. redirect to another page, update user state, etc.)
-        } else {
-            console.log('Login failed');
-            // handle failed login here (e.g. show error message, clear form, etc.)
-        }
-    };
-
+  render() {
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Username:
-                <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-            </label>
-            <label>
-                Password:
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-            </label>
-            <input type="submit" value="Submit" />
-        </form>
+      <form onSubmit={this.handleSubmit} className={styles.form}>
+        <label className={styles.label}>
+          Username:
+          <input
+            type="text"
+            name="username"
+            value={this.state.username}
+            onChange={this.handleInputChange}
+            className={styles.input}
+          />
+        </label>
+        <label className={styles.label}>
+          Password:
+          <input
+            type="password"
+            name="password"
+            value={this.state.password}
+            onChange={this.handleInputChange}
+            className={styles.input}
+            autoComplete="current-password"
+          />
+        </label>
+        <button type="submit" className={styles.button}>Submit</button>
+      </form>
     );
-};
+  }
+}
 
 export default LoginForm;

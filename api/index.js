@@ -12,10 +12,14 @@ const HomePage = () => {
   const [users, setUsers] = useState([]);
   const [mongoData, setMongoData] = useState([]);
   const [lessons, setLessons] = useState([]);
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showSignIn, setShowSignIn] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState(false);
+  const [showSignUpForm, setShowSignUpForm] = useState(false);
+  const [showUserLessons, setShowUserLessons] = useState(false);
 
-  // Function for fetching data from PostgreSQL
+  const toggleLoginForm = () => setShowLoginForm(!showLoginForm);
+  const toggleSignUpForm = () => setShowSignUpForm(!showSignUpForm);
+  const toggleUserLessons = () => setShowUserLessons(!showUserLessons);
+
   const fetchPostgresData = async () => {
     try {
       const returned = await sql`SELECT * FROM userinfo`;
@@ -25,10 +29,9 @@ const HomePage = () => {
     }
   };
 
-  // Function for fetching data from MongoDB for Lessons
   const fetchMongoLessons = async () => {
     try {
-      const res = await fetch('/api/lessons'); // Assuming this is the correct API route
+      const res = await fetch('/api/lessons');
       const lessonsData = await res.json();
       setLessons(lessonsData);
     } catch (error) {
@@ -36,7 +39,6 @@ const HomePage = () => {
     }
   };
 
-  // Function for fetching data from MongoDB
   const fetchMongoData = async () => {
     try {
       const res = await fetch('/api/mongoData');
@@ -53,28 +55,15 @@ const HomePage = () => {
     fetchMongoLessons();
   }, []);
 
-  const handleSignUpClick = (event) => {
-    event.preventDefault();
-    // Assuming this function comes from Navigation component
-    setShowSignUp(true);
-    setShowSignIn(false);
-  };
-
-  const handleSignInClick = (event) => {
-    event.preventDefault();
-    // Assuming this function comes from Navigation component
-    setShowSignIn(true);
-    setShowSignUp(false);
-  };
-
   return (
     <>
       <Header />
-      <Navigation onSignUpClick={handleSignUpClick} onSignInClick={handleSignInClick} />
-      {showSignUp && <SignUpForm />}
-      {showSignIn && <LoginForm />}
+      <Navigation toggleUserLessons={toggleUserLessons} />
+    {showLoginForm && <LoginForm />}
+    {showSignUpForm && <SignUpForm />}
+    {showUserLessons && <UserLessons />}
+      
 
-      <br />
       <h2>My PostgreSQL Data:</h2>
       <table>
         <thead>
@@ -95,11 +84,9 @@ const HomePage = () => {
         </tbody>
       </table>
 
-      <br />
       <h2>My MongoDB Data:</h2>
       <pre>{JSON.stringify(mongoData, null, 2)}</pre>
 
-      <br />
       <h2>My MongoDB Lessons Data:</h2>
       <pre>{JSON.stringify(lessons, null, 2)}</pre>
     </>
