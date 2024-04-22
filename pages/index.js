@@ -11,6 +11,7 @@ import ErrorBoundary from '../components/ErrorBoundary';
 const HomePage = () => {
   const [users, setUsers] = useState([]);
   const [mongoData, setMongoData] = useState([]);
+  const [lessons, setLessons] = useState([]);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
 
@@ -21,6 +22,17 @@ const HomePage = () => {
       setUsers(returned.rows);
     } catch (error) {
       console.error('Error fetching PostgreSQL data:', error);
+    }
+  };
+
+  // Function for fetching data from MongoDB for Lessons
+  const fetchMongoLessons = async () => {
+    try {
+      const res = await fetch('/api/lessons'); // Assuming this is the correct API route
+      const lessonsData = await res.json();
+      setLessons(lessonsData);
+    } catch (error) {
+      console.error('Error fetching MongoDB lessons data:', error);
     }
   };
 
@@ -38,6 +50,7 @@ const HomePage = () => {
   useEffect(() => {
     fetchPostgresData();
     fetchMongoData();
+    fetchMongoLessons();
   }, []);
 
   const handleSignUpClick = (event) => {
@@ -85,6 +98,10 @@ const HomePage = () => {
       <br />
       <h2>My MongoDB Data:</h2>
       <pre>{JSON.stringify(mongoData, null, 2)}</pre>
+
+      <br />
+      <h2>My MongoDB Lessons Data:</h2>
+      <pre>{JSON.stringify(lessons, null, 2)}</pre>
     </>
   );
 };
