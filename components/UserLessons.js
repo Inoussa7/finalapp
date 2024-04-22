@@ -44,7 +44,7 @@ const UserLessons = () => {
       <select id="topic-select" value={selectedTopicIndex} onChange={handleTopicChange}>
         {lessons.topics.map((topic, index) => (
           <option key={index} value={index}>
-            {topic.name}  // replace 'name' with the actual property of the topic object
+            {topic.name}
           </option>
         ))}
       </select>
@@ -77,21 +77,21 @@ const UserLessons = () => {
             </ul>
           </div>
           <div>
-            <h4>Activities</h4>
-            {selectedLevel.activities && (
-              <ul>
-                {Object.keys(selectedLevel.activities).map((key, index) => (
-                  <li key={index}>{selectedLevel.activities[key].name}</li>  // replace 'name' with the actual property of the activity object
-                ))}
-              </ul>
-            )}
-          </div>
+  <h4>Activities</h4>
+  {selectedLevel.activities && (
+    <ul>
+      {Object.keys(selectedLevel.activities).map((key, index) => (
+        <li key={index}>{selectedLevel.activities[key].name}</li> 
+      ))}
+    </ul>
+  )}
+</div>
         </div>
       )}
 
       {selectedTopic && (
         <div>
-          <h3>{selectedTopic.name}</h3>  // replace 'name' with the actual property of the topic object
+          <h3>{selectedTopic.name}</h3>
           {/* Display other properties of the topic */}
         </div>
       )}

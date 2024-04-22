@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
-import Navigation from '../components/Navigation';
-import SignUpForm from '../components/SignUpForm';
-import LoginForm from '../components/LoginForm';
+import Header from '../../components/Header';
+import Navigation from '../../components/Navigation';
+import SignUpForm from '../../components/SignUpForm';
+import LoginForm from '../../components/LoginForm';
 import styles from "../app/Navigation.module.css";
 import { sql } from '@vercel/postgres'; 
-import dbConnect from '../utils/dbConnect';
-import ErrorBoundary from '../components/ErrorBoundary';
+import dbConnect from '../../utils/dbConnect';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 const HomePage = () => {
   const [users, setUsers] = useState([]);
